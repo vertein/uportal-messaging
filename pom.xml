@@ -3,7 +3,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>edu.wisc.my</groupId>
+    <groupId>edu.wisc.my.apps</groupId>
     <artifactId>uportal-messaging</artifactId>
     <version>0.1.0-SNAPSHOT</version>
 
@@ -13,25 +13,52 @@
         <version>1.5.9.RELEASE</version>
     </parent>
 
-    <scm>
-        <connection>scm:git:git://github.com:UW-Madison-DoIT/uportal-messaging.git</connection>
-        <developerConnection>scm:git:git@github.com:UW-Madison-DoIT/uportal-messaging.git</developerConnection>
-        <url>https://github.com/UW-Madison-DoIT/uportal-messaging</url>
-      <tag>HEAD</tag>
-    </scm>
+  <scm>
+      <connection>scm:git:git://github.com:UW-Madison-DoIT/uportal-messaging.git</connection>
+      <developerConnection>scm:git:git@github.com:UW-Madison-DoIT/uportal-messaging.git</developerConnection>
+      <url>https://github.com/UW-Madison-DoIT/uportal-messaging</url>
+    <tag>HEAD</tag>
+  </scm>
 
-    <distributionManagement>
-      <snapshotRepository>
-        <id>ossrh</id>
-        <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-      </snapshotRepository>
-      <repository>
-        <id>ossrh</id>
-        <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-      </repository>
-    </distributionManagement>
+  <distributionManagement>
+    <repository>
+      <id>myuw-public-releases</id>
+      <url>https://artifacts.doit.wisc.edu/artifactory/myuw-public-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>myuw-public-snapshots</id>
+      <url>https://artifacts.doit.wisc.edu/artifactory/myuw-public-snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <repositories>
+    <repository>
+      <id>myuw-public-releases</id>
+      <url>https://artifacts.doit.wisc.edu/artifactory/myuw-public-releases/</url>
+      <releases><enabled>true</enabled></releases>
+      <snapshots><enabled>false</enabled></snapshots>
+    </repository>
+    <repository>
+      <id>myuw-public-snapshots</id>
+      <url>https://artifacts.doit.wisc.edu/artifactory/myuw-public-snapshots/</url>
+      <releases><enabled>false</enabled></releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <releases><enabled>false</enabled></releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+    </repository>
+  </repositories>
     
-<dependencies>
+  <dependencies>
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-web</artifactId>
@@ -75,12 +102,12 @@
         <scope>test</scope>
     </dependency>
     <!-- end::tests[] -->
-</dependencies>
+  </dependencies>
 
-    <properties>
-        <java.version>1.8</java.version>
-        <skipTests>true</skipTests>
-    </properties>
+  <properties>
+    <java.version>1.8</java.version>
+    <skipTests>true</skipTests>
+  </properties>
 
     <build>
         <plugins>
