@@ -1,6 +1,7 @@
 package edu.wisc.my.messages.controller;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.json.JSONObject;
 import edu.wisc.my.messages.service.MessagesService;
 import org.slf4j.Logger;
@@ -18,7 +19,7 @@ public class MessagesController {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     private MessagesService messagesService;
     
-    @RequestMapping(value="/messages")
+    @RequestMapping(value="/messages", method=RequestMethod.GET)
     public @ResponseBody void getJson(HttpServletRequest request, 
         HttpServletResponse response) {
             JSONObject json = messagesService.getRawMessages();
