@@ -18,7 +18,7 @@ public class MessagesController {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     private MessagesService messagesService;
     
-    @RequestMapping(value="/json")
+    @RequestMapping(value="/messages")
     public @ResponseBody void getJson(HttpServletRequest request, 
         HttpServletResponse response) {
             JSONObject json = messagesService.getRawMessages();
