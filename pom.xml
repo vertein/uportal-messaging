@@ -65,17 +65,24 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
-    <!-- tag::actuator[] -->
     <dependency>
         <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-actuator</artifactId>
+        <artifactId>spring-boot-starter-data-rest</artifactId>
     </dependency>
-    <!-- end::actuator[] -->
     <dependency>
         <groupId>net.sf.json-lib</groupId>
         <artifactId>json-lib</artifactId>
         <version>2.4</version>
         <classifier>jdk15</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-tomcat</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-devtools</artifactId>
     </dependency>
     <dependency>
         <groupId>commons-io</groupId>
@@ -86,16 +93,6 @@
         <groupId>org.json</groupId>
         <artifactId>json</artifactId>
         <version>20171018</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.json</groupId>
-      <artifactId>javax.json-api</artifactId>
-      <version>1.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish</groupId>
-      <artifactId>javax.json</artifactId>
-      <version>1.1</version>
     </dependency>
     <!-- tag::tests[] -->
     <dependency>
@@ -127,6 +124,29 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <attachClasses>true</attachClasses>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.4.2</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.scm</groupId>
+                        <artifactId>maven-scm-provider-gitexe</artifactId>
+                        <version>1.8.1</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                  <autoVersionSubmodules>true</autoVersionSubmodules>
+                  <useReleaseProfile>false</useReleaseProfile>
+                  <releaseProfiles>release</releaseProfiles>
+                  <goals>deploy</goals>
+                </configuration>
             </plugin>
         </plugins>
     </build>
