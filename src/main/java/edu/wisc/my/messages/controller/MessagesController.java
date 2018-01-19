@@ -1,6 +1,6 @@
 package edu.wisc.my.messages.controller;
 
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.json.JSONObject;
 import edu.wisc.my.messages.service.MessagesService;
@@ -14,18 +14,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@RestController
+@Controller
 public class MessagesController {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     private MessagesService messagesService;
     
     @RequestMapping(value="/messages", method=RequestMethod.GET)
-    public @ResponseBody void getJson(HttpServletRequest request, 
+    public @ResponseBody void getJson(HttpServletRequest request,
         HttpServletResponse response) {
             JSONObject json = messagesService.getRawMessages();
             response.setContentType("application/json");
             try {
-                logger.warn(json.toString());
                 response.getWriter().write(json.toString());
                 response.setStatus(HttpServletResponse.SC_OK);
             } catch (Exception e) {
