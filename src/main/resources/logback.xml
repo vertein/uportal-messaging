@@ -49,7 +49,7 @@
     </rollingPolicy>
   </appender>
 
-  <root level="ERROR">
+  <root level="WARN">
       <appender-ref ref="LOG"/>
   </root>
   <logger name="edu.wisc" additivity="false" level="WARN">
