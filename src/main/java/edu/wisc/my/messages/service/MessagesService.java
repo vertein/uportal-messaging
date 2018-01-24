@@ -1,18 +1,16 @@
 package edu.wisc.my.messages.service;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.json.JSONObject;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
-import org.apache.commons.io.IOUtils; 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,26 +19,19 @@ public class MessagesService {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private ResourceLoader resourceLoader;
-
-    @Autowired
     private Environment env;
 
     public JSONObject getRawMessages() {
+        String messagesFile = env.getProperty("messages.source");
         try{
-            Resource resource = resourceLoader.getResource(env.getProperty("message.source"));
-            InputStream is = resource.getInputStream();
-            String jsonTxt = IOUtils.toString( is );
-            BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
+            String jsonTxt = new String(Files.readAllBytes(Paths.get(messagesFile)));
             JSONObject json = new JSONObject(jsonTxt);
-        
-           return json;
-
-        } catch (Exception e) {
-           logger.warn("service exception " + e.getMessage());
+            return json;
+        } catch (IOException e) {
+           logger.warn("Error while parsing {} " + e.getMessage(), messagesFile);
            JSONObject responseObj = new JSONObject();
-            responseObj.put("status", "error");
-            return responseObj;
+           responseObj.put("status", "error");
+           return responseObj;
         }
     }
 }
