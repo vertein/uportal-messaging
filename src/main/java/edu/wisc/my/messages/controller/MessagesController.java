@@ -18,11 +18,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MessagesController {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     private MessagesService messagesService;
-    
+
+    @Autowired
+    public void setMessagesService(MessagesService messagesService) {
+        this.messagesService = messagesService;
+    }
+
     @RequestMapping(value="/messages", method=RequestMethod.GET)
     public @ResponseBody void getJson(HttpServletRequest request,
         HttpServletResponse response) {
-            JSONObject json = messagesService.getRawMessages();
+            JSONObject json = messagesService.getMessages();
             response.setContentType("application/json");
             try {
                 response.getWriter().write(json.toString());
@@ -44,11 +49,6 @@ public class MessagesController {
             logger.error("Issues happened while trying to write Status", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-    }
-
-    @Autowired
-    public void setMessagesService(MessagesService messagesService) {
-        this.messagesService = messagesService;
     }
 
 }
