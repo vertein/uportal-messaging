@@ -11,40 +11,29 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import edu.Application;
 import edu.wisc.my.messages.service.MessagesService;
 
 @RunWith(SpringRunner.class)
-@WebAppConfiguration
-@ContextConfiguration(classes={Application.class})
-@SpringBootTest
+@WebMvcTest(MessagesController.class)
 public class MessagesControllerTest{
 
+    @Autowired
     private MockMvc mvc;
 
     private JSONObject sampleMessages = new JSONObject();
     private JSONObject upStatus = new JSONObject();
 
-    @InjectMocks
-    private MessagesController messagesControllerMock;
-
-    @Mock
+    @MockBean
     private MessagesService messagesServiceMock;
 
     @Before
     public void setup() throws JSONException {
-        MockitoAnnotations.initMocks(this);
-        this.mvc = MockMvcBuilders.standaloneSetup(messagesControllerMock).build();
         sampleMessages.put("name1", "value1");
         sampleMessages.put("name2", "value2");
         JSONArray list = new JSONArray();

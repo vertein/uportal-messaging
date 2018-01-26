@@ -11,24 +11,19 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.skyscreamer.jsonassert.JSONAssert;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import edu.Application;
 import edu.wisc.my.messages.dao.MessagesFileDaoImpl;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
-@ContextConfiguration(classes={Application.class})
 public class MessagesServiceImplTest{
 
     @Mock
     private MessagesFileDaoImpl messagesDaoMock;
 
     private JSONObject sampleMessages = new JSONObject();
-    
+
     @InjectMocks
     private MessagesServiceImpl messagesService;
 

@@ -52,5 +52,11 @@
   <root level="WARN">
       <appender-ref ref="LOG"/>
   </root>
+  <logger name="org.apache" level="INFO">
+    <appender-ref ref="LOG"/>
+  </logger>
+  <logger name="edu.wisc" additivity="false" level="WARN">
+      <appender-ref ref="LOG"/>
+  </logger>
 
 </configuration>

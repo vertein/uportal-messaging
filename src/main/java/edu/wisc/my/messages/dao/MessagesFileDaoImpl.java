@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,22 +24,31 @@ public class MessagesFileDaoImpl implements MessagesDao{
     private Environment env;
 
     @Override
-    public JSONObject getMessages() {
+    public JSONObject getMessages(){
+        JSONObject json = new JSONObject();
+        Path filePath = this.getFilePath();
+        if(filePath != null){
+            try {
+                json = new JSONObject(
+                  new String(Files.readAllBytes(this.getFilePath())));
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return json;
+    }
+
+    public Path getFilePath(){
+        System.out.println("Shouldn't really be here");
         String messagesFileName = env.getProperty("message.source");
-        try{
+        try {
             URI messagesFileURI =
-              getClass().getClassLoader().getResource(messagesFileName).toURI();
-            String jsonTxt =
-              new String(Files.readAllBytes(Paths.get(messagesFileURI)));
-            JSONObject json = new JSONObject(jsonTxt);
-            return json;
-        } catch (IOException | URISyntaxException e) {
-           logger.warn("Error while parsing {} " +
-             e.getMessage(), messagesFileName);
-           JSONObject responseObj = new JSONObject();
-           responseObj.put("status", "error");
-           return responseObj;
+                    getClass().getClassLoader()
+                    .getResource(messagesFileName).toURI();
+            return Paths.get(messagesFileURI);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
         }
     }
-    
 }
