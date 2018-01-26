@@ -26,16 +26,17 @@ public class MessagesController {
 
     @RequestMapping(value="/messages", method=RequestMethod.GET)
     public @ResponseBody void getJson(HttpServletRequest request,
-        HttpServletResponse response) {
-            JSONObject json = messagesService.getMessages();
-            response.setContentType("application/json");
-            try {
-                response.getWriter().write(json.toString());
-                response.setStatus(HttpServletResponse.SC_OK);
-            } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            }
+      HttpServletResponse response) {
+        JSONObject json = messagesService.getMessages();
+        response.setContentType("application/json");
+        try {
+            response.getWriter().write(json.toString());
+            response.setStatus(HttpServletResponse.SC_OK);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
+    }
+
     @RequestMapping("/")
     public @ResponseBody
     void index(HttpServletResponse response) {

@@ -49,11 +49,8 @@
     </rollingPolicy>
   </appender>
 
-  <root level="INFO">
+  <root level="WARN">
       <appender-ref ref="LOG"/>
   </root>
-  <logger name="edu.wisc" additivity="false" level="WARN">
-    <appender-ref ref="LOG"/>
-  </logger>
 
 </configuration>
