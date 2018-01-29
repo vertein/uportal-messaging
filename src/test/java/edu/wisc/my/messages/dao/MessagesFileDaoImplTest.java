@@ -28,7 +28,8 @@ public class MessagesFileDaoImplTest{
     @Test
     public void emptyMessagesWhenNoFileExists(){
         doReturn(null).when(messagesFileDao).getFilePath();
-        JSONAssert.assertEquals(new JSONObject(), messagesFileDao.getMessages(), true);
+        JSONAssert.assertEquals(new JSONObject(),
+          messagesFileDao.getMessages(), true);
     }
 
 }

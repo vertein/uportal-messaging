@@ -17,6 +17,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class MessagesFileDaoImpl implements MessagesDao{
+    
+    static String MESSAGE_FILE_NAME_PROPERTY = "message.source";
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -26,25 +28,33 @@ public class MessagesFileDaoImpl implements MessagesDao{
     @Override
     public JSONObject getMessages(){
         JSONObject json = new JSONObject();
-        Path filePath = this.getFilePath();
-        if(filePath != null){
-            try {
-                json = new JSONObject(
-                  new String(Files.readAllBytes(this.getFilePath())));
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-            }
+        String fileContent = this.getFileContentAsString(this.getFilePath());
+        try {
+            json = new JSONObject(fileContent);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return json;
     }
 
+    public String getFileContentAsString(Path filePath){
+        StringBuilder st = new StringBuilder();
+        if(filePath != null){
+            try {
+                 st.append(new String(Files.readAllBytes(filePath)));
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return st.toString();
+    }
+
     public Path getFilePath(){
-        System.out.println("Shouldn't really be here");
-        String messagesFileName = env.getProperty("message.source");
+        String messagesFileName = env.getProperty(MESSAGE_FILE_NAME_PROPERTY);
         try {
             URI messagesFileURI =
-                    getClass().getClassLoader()
-                    .getResource(messagesFileName).toURI();
+              getClass().getClassLoader()
+              .getResource(messagesFileName).toURI();
             return Paths.get(messagesFileURI);
         } catch (URISyntaxException e) {
             e.printStackTrace();
