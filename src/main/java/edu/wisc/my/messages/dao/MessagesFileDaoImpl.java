@@ -25,40 +25,25 @@ public class MessagesFileDaoImpl implements MessagesDao{
     @Autowired
     private Environment env;
 
+    /**
+     * Will return the Messages from {@value #MESSAGE_FILE_NAME_PROPERTY}
+     * will return an empty JSON object on error
+     * @return JSONObject messages
+     */
     @Override
     public JSONObject getMessages(){
         JSONObject json = new JSONObject();
-        String fileContent = this.getFileContentAsString(this.getFilePath());
         try {
-            json = new JSONObject(fileContent);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return json;
-    }
-
-    public String getFileContentAsString(Path filePath){
-        StringBuilder st = new StringBuilder();
-        if(filePath != null){
-            try {
-                 st.append(new String(Files.readAllBytes(filePath)));
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return st.toString();
-    }
-
-    public Path getFilePath(){
-        String messagesFileName = env.getProperty(MESSAGE_FILE_NAME_PROPERTY);
-        try {
+            String messagesFileName = env.getProperty(MESSAGE_FILE_NAME_PROPERTY);
             URI messagesFileURI =
               getClass().getClassLoader()
               .getResource(messagesFileName).toURI();
-            return Paths.get(messagesFileURI);
-        } catch (URISyntaxException e) {
+            String fileContent = 
+              new String(Files.readAllBytes(Paths.get(messagesFileURI)));
+            json = new JSONObject(fileContent);
+        } catch (IOException | URISyntaxException | JSONException e) {
             e.printStackTrace();
-            return null;
         }
+        return json;
     }
 }
